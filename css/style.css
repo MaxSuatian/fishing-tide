@@ -22,7 +22,7 @@
 html { font-size: 16px; }
 body {
   font-family: var(--font);
-  background: var(--bg);
+  background-color: var(--bg);
   background-image: url('../bg.jpg');
   background-size: cover;
   background-position: center;
@@ -40,7 +40,14 @@ body::before {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(15, 26, 46, 0.55);
-  z-index: -1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 内容放在遮罩之上 */
+#app {
+  position: relative;
+  z-index: 1;
 }
 
 .hidden { display: none !important; }
