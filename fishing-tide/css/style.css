@@ -1,0 +1,386 @@
+/* === Reset & Base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f1a2e;
+  --surface: #1a2a45;
+  --surface2: #243856;
+  --primary: #4fc3f7;
+  --primary-dim: #2980b9;
+  --accent: #ffd54f;
+  --accent2: #ff8a65;
+  --text: #e8edf3;
+  --text2: #9aaec9;
+  --danger: #ef5350;
+  --success: #66bb6a;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+}
+
+html { font-size: 16px; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: 20px;
+}
+
+.hidden { display: none !important; }
+
+/* === Header === */
+.header {
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  padding: 16px 16px 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: var(--shadow);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.header-top h1 {
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+.date-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-icon {
+  background: var(--surface2);
+  border: none;
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.btn-icon:active { background: var(--primary-dim); }
+
+#dateDisplay {
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+  color: var(--accent);
+}
+
+.btn-today {
+  background: var(--primary);
+  border: none;
+  color: var(--bg);
+  font-size: 0.78rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-today:active { opacity: 0.8; }
+
+.station-selector select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--surface2);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239aaec9' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+.station-selector select:focus { outline: none; border-color: var(--primary); }
+
+/* === Loading === */
+.loading-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  animation: loadingSlide 1.2s infinite;
+}
+@keyframes loadingSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+.mini-loading {
+  color: var(--text2);
+  font-size: 0.85rem;
+  padding: 12px 0;
+  text-align: center;
+}
+
+/* === Main Content === */
+.main-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* === Cards === */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tide-type-badge {
+  font-size: 0.78rem;
+  background: var(--surface2);
+  padding: 3px 10px;
+  border-radius: 12px;
+  color: var(--primary);
+}
+
+/* === Weather === */
+.weather-content { min-height: 60px; }
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.weather-item {
+  text-align: center;
+  padding: 6px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+}
+
+.weather-item .label {
+  font-size: 0.72rem;
+  color: var(--text2);
+  display: block;
+}
+
+.weather-item .value {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.weather-item .value.temp {
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+.weather-error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* === Tide Chart === */
+.chart-container {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+#tideChart {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+}
+
+/* === Tide Extremes === */
+.tide-extremes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.tide-extreme-card {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  text-align: center;
+}
+
+.tide-extreme-card .type {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tide-extreme-card.high .type { color: var(--danger); }
+.tide-extreme-card.low .type { color: var(--primary); }
+
+.tide-extreme-card .time {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.tide-extreme-card .height {
+  font-size: 0.85rem;
+  color: var(--text2);
+}
+
+.now-indicator {
+  text-align: center;
+  padding: 8px;
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.now-indicator .curr-height {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.now-indicator .trend {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.trend.rising { background: rgba(255, 138, 101, 0.25); color: var(--accent2); }
+.trend.falling { background: rgba(79, 195, 247, 0.25); color: var(--primary); }
+.trend.slack { background: rgba(255, 213, 79, 0.25); color: var(--accent); }
+
+/* === Fishing Index === */
+.fish-index-display {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.fish-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.fish-score.good { background: rgba(102, 187, 106, 0.2); color: var(--success); }
+.fish-score.fair { background: rgba(255, 213, 79, 0.2); color: var(--accent); }
+.fish-score.poor { background: rgba(239, 83, 80, 0.2); color: var(--danger); }
+
+.fish-score .num { font-size: 1.6rem; line-height: 1; }
+.fish-score .label { font-size: 0.72rem; margin-top: 2px; }
+
+.fish-times {
+  flex: 1;
+  font-size: 0.88rem;
+}
+
+.fish-times .time-slot {
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fish-times .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.good { background: var(--success); }
+.dot.fair { background: var(--accent); }
+.dot.poor { background: var(--danger); }
+
+.fish-tip {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* === Astro === */
+.astro-content { min-height: 60px; }
+
+.astro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.astro-item {
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  text-align: center;
+}
+
+.astro-item .icon { font-size: 1.5rem; margin-bottom: 4px; }
+.astro-item .label { font-size: 0.72rem; color: var(--text2); }
+.astro-item .value { font-size: 0.95rem; font-weight: 600; margin-top: 2px; }
+
+.moon-phase {
+  font-size: 2rem;
+  text-align: center;
+  padding: 8px;
+}
+
+/* === Footer === */
+.footer {
+  text-align: center;
+  padding: 20px 16px 10px;
+  font-size: 0.78rem;
+  color: var(--text2);
+}
+
+/* === Responsive === */
+@media (max-width: 420px) {
+  .header-top h1 { font-size: 1rem; }
+  #dateDisplay { min-width: 100px; font-size: 0.82rem; }
+  .tide-extremes { grid-template-columns: 1fr 1fr; }
+  .fish-index-display { flex-direction: column; align-items: stretch; text-align: center; }
+  .fish-score { margin: 0 auto; }
+}
