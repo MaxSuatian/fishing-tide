@@ -23,17 +23,33 @@ html { font-size: 16px; }
 body {
   font-family: var(--font);
   background: var(--bg);
+  background-image: url('../bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: var(--text);
   line-height: 1.5;
   min-height: 100vh;
   padding-bottom: 20px;
 }
 
+/* 背景图片加载完成后加一层暗色遮罩 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 26, 46, 0.55);
+  z-index: -1;
+}
+
 .hidden { display: none !important; }
 
 /* === Header === */
 .header {
-  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  background: rgba(26, 42, 69, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 16px 16px 12px;
   position: sticky;
   top: 0;
@@ -144,7 +160,9 @@ body {
 
 /* === Cards === */
 .card {
-  background: var(--surface);
+  background: rgba(26, 42, 69, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
